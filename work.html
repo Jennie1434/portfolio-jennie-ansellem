@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Jennie Ansellem</title>
+
+  <style>
+    @font-face { font-family: 'Goga'; src: url('fonts/Goga-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Goga'; src: url('fonts/Goga-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Goga'; src: url('fonts/Goga-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-warm:  #faf6ef;
+      --orange1:  #c4b5fd;
+      --orange2:  #5b21b6;
+      --blue:     #6322f5;
+      --grey:     #8878a8;
+      --text:     #333333;
+      --dark:     #1a1714;
+    }
+
+    html { scroll-behavior: auto; }
+
+    body {
+      font-family: 'Goga', Arial, sans-serif;
+      background: var(--bg-warm);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────── */
+    * { cursor: none !important; }
+    #cursor-dot {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--dark); border-radius: 50%;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%, -50%);
+    }
+    #cursor-ring {
+      position: fixed; width: 28px; height: 28px;
+      border: 1.5px solid var(--dark); border-radius: 50%;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width .25s, height .25s;
+    }
+
+    /* ─── VIGNETTE ────────────────────────────────────── */
+    .vignette {
+      display: none;
+    }
+
+    /* ─── LOADER ─────────────────────────────────────── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #loader span {
+      font-family: 'Goga', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--orange1);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto; z-index: 500;
+      padding: calc(14px + 1cm) 28px 14px; display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center; pointer-events: none;
+    }
+    nav .nav-pill { justify-self: center; }
+    nav .nav-links { justify-self: end; }
+    nav > * { pointer-events: auto; }
+    .nav-logo {
+      font-family: 'Goga', sans-serif; font-size: 17px; font-weight: 600; color: var(--grey);
+      text-decoration: none; display: flex; align-items: center; gap: 1px;
+    }
+    .nav-logo .dot { color: var(--blue); font-weight: 800; font-size: 22px; line-height: 0.8; margin: 0 4px; }
+    .nav-pill {
+      display: flex; align-items: center;
+      background: rgba(196,181,253,.35); backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 100px; padding: 5px 5px 5px 16px; gap: 4px;
+    }
+    .nav-pill a {
+      font-family: 'Goga', sans-serif; font-size: 13px; color: var(--grey);
+      text-decoration: none; padding: 6px 10px; border-radius: 100px;
+      transition: color .2s, background .2s;
+    }
+    .nav-pill a:hover { color: var(--text); background: rgba(255,255,255,.35); }
+    .nav-icon {
+      width: 32px; height: 32px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a {
+      font-family: 'Goga', sans-serif; font-size: 13px; color: var(--grey);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── PAGE LAYOUT (Juan exact) ───────────────────── */
+    .work-page {
+      display: flex;
+      width: 100%;
+    }
+
+    /* ─── SIDEBAR (14vw, sticky) ─────────────────────── */
+    .main-cont-nav-work {
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      width: 14vw;
+      height: 100vh;
+      padding-left: 4vw;
+      position: sticky;
+      top: 0;
+      flex-shrink: 0;
+    }
+
+    .wrapper-work-nav {
+      list-style: none;
+      width: 100%;
+      margin: 0; padding: 0;
+    }
+
+    .wrapper-nav-work {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      height: 2rem;
+      margin-left: -8px;
+      padding-left: 8px;
+      position: relative;
+    }
+
+    .nav-dot {
+      z-index: 15;
+      background: var(--blue);
+      border-radius: 1rem;
+      width: .3rem;
+      height: .3rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .nav-dot.off {
+      z-index: 9;
+      background: var(--grey);
+      opacity: .58;
+      position: absolute;
+    }
+
+    .link-wrapper-project {
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      opacity: 0;
+      height: 2rem;
+      color: var(--grey);
+      font-family: 'Goga', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      line-height: 100%;
+      text-decoration: none;
+      transition: all .2s;
+      position: relative;
+    }
+    .link-wrapper-project:hover { opacity: 1; }
+    .link-wrapper-project.w--current {
+      gap: .5rem;
+      opacity: 1;
+      color: #797979;
+      background: rgba(0,0,0,.05);
+      border-radius: 22px;
+      width: auto;
+      margin-left: -8px;
+      padding-left: 8px;
+      padding-right: .8rem;
+    }
+
+    .project-cont-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1vw;
+      pointer-events: none;
+    }
+
+    /* Hover thumbnail */
+    .img-project-nav {
+      pointer-events: none;
+      width: 3vw;
+      display: none;
+      position: relative;
+    }
+    .link-wrapper-project:hover .img-project-nav { display: block; }
+
+    /* ─── MAIN CONTENT (86vw) ────────────────────────── */
+    .main-wrapper-work {
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 86vw;
+      position: relative;
+      overflow: visible;
+    }
+
+    /* ─── HEADER (Juan exact) ────────────────────────── */
+    .header-work-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      width: 71vw;
+      height: 22vw;
+      margin-bottom: 5cm;
+      margin-top: calc(5vw + 2cm);
+      position: relative;
+    }
+
+    .text-headline-work {
+      color: var(--grey);
+      letter-spacing: -0.3vw;
+      margin: 0;
+      font-family: 'Goga', Arial, sans-serif;
+      font-size: 7vw;
+      font-weight: 600;
+      line-height: 105%;
+    }
+
+    /* Invisible T--. exactly like Juan */
+    .text-span-6 {
+      opacity: 0.01;
+      pointer-events: none;
+      color: var(--bg-warm);
+    }
+
+    /* ─── FOLDER (exact copy from index.html) ─────────── */
+    .folder-work-wrap {
+      position: absolute;
+      inset: auto auto 8.4vw 0;
+      width: 7.6vw;
+      pointer-events: all;
+      overflow: visible;
+    }
+
+    .folder-inner {
+      perspective: 2000px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+      width: 100%;
+      padding-top: 84%; /* maintain ratio */
+    }
+
+    .folder-back {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    .folder-back img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+
+    .folder-projects {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+    }
+    .folder-projects img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+
+    .folder-front {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 85%;
+      z-index: 3;
+      transform-origin: 50% 100%;
+      transform: rotateX(-20deg);
+      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+    .folder-front img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+    .folder-inner:hover .folder-front { transform: rotateX(-58deg); }
+
+    /* ─── PROJECT SECTIONS ───────────────────────────── */
+    .main-project-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      background: #fff;
+      justify-content: flex-start;
+      width: 100%;
+      padding-top: 2.5cm;
+      padding-bottom: 2.5cm;
+      padding-right: 4vw;
+      margin-bottom: 3cm;
+      border-radius: 12px;
+    }
+    .main-project-wrapper:last-child { margin-bottom: 0; }
+
+    .cont-project-content {
+      z-index: 23;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      width: 100%;
+      position: relative;
+    }
+
+    .content-project-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .content-project-info.first {
+      padding-left: 1.5rem;
+    }
+
+    .headline-project {
+      font-family: 'Goga', sans-serif;
+      font-size: clamp(22px, 2.5vw, 42px);
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .pill-year {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 1px solid rgba(136,120,168,.4);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--grey);
+      letter-spacing: 0.06em;
+      width: fit-content;
+    }
+
+    .dot-project {
+      width: 6px; height: 6px;
+      background: var(--blue);
+      border-radius: 50%;
+    }
+
+    .body-copy {
+      font-family: 'Goga', sans-serif;
+      font-size: clamp(13px, 1.1vw, 17px);
+      font-weight: 400;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+    .body-copy.title { color: var(--grey); font-weight: 500; }
+    .body-copy.black { color: var(--text); }
+
+    .pill-services-cont {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pill-service {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(196,181,253,.15);
+      border: 1px solid rgba(196,181,253,.35);
+      border-radius: 100px;
+      font-size: 11px;
+      color: var(--grey);
+      white-space: nowrap;
+    }
+
+    /* ─── CAROUSEL ──────────────────────────────────── */
+    .carousel {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--bg-warm);
+    }
+
+    .carousel-slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+    .carousel-slide.active {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+    }
+
+    /* Carousel wrapper with external arrows */
+    .carousel-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Arrows */
+    .carousel-btn {
+      width: 40px; height: 40px;
+      background: transparent;
+      border: 1px solid rgba(136,120,168,.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, border-color .2s;
+      flex-shrink: 0;
+    }
+    .carousel-btn:hover { background: var(--dark); border-color: var(--dark); }
+    .carousel-btn:hover svg { color: var(--bg-warm); }
+    .carousel-btn svg { color: var(--grey); transition: color .2s; }
+
+    /* Dots */
+    .carousel-counter {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+    .carousel-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.4);
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+    }
+    .carousel-dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    .work-footer {
+      width: 100%;
+      padding: 52px 4vw 52px calc(14vw + 1rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(136,120,168,.15);
+    }
+    .work-footer-copy { font-size: 13px; color: var(--grey); }
+    .back-home {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--grey);
+      text-decoration: none; transition: color .2s;
+    }
+    .back-home:hover { color: var(--dark); }
+    .back-home-arrow {
+      width: 34px; height: 34px;
+      border: 1px solid var(--grey); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .back-home:hover .back-home-arrow {
+      border-color: var(--dark); background: var(--dark); color: var(--bg-warm);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader"><span>Jennie&nbsp;•&nbsp;Ansellem</span></div>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Vignette -->
+<div class="vignette"></div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="index.html">Jennie<span class="dot">·</span>Ansellem</a>
+  <div class="nav-pill">
+    <a href="index.html">Accueil</a>
+    <a href="work.html" style="color: var(--dark); background: rgba(255,255,255,0.45);">Work</a>
+    <a href="index.html#contact">Contact</a>
+    <div class="nav-icon">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="3" fill="var(--blue)"/>
+      </svg>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jennieansellem@gmail.com&su=Parlons%20de%20votre%20projet" target="_blank" rel="noopener">Email</a>
+    <a href="https://www.linkedin.com/in/jennie-ansellem/" target="_blank" rel="noopener">in</a>
+    <a href="https://www.instagram.com/jennie_ansel/" target="_blank" rel="noopener">insta</a>
+  </div>
+</nav>
+
+<!-- Page -->
+<div class="work-page">
+
+  <!-- ─── SIDEBAR ──────────────────────────────────── -->
+  <aside class="main-cont-nav-work">
+    <ul class="wrapper-work-nav">
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#carrefour" class="link-wrapper-project w--current">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>Carrefour</span>
+            <img class="img-project-nav" src="images/carrefour-new.svg" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#n8n" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>N8N</span>
+            <img class="img-project-nav" src="images/n8n-logo.png" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#wttj" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>Wttj</span>
+            <img class="img-project-nav" src="images/wttj-logo.webp" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#binko" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>Binko</span>
+            <img class="img-project-nav" src="images/binko-logo.jpeg" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#licter" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>Licter</span>
+            <img class="img-project-nav" src="images/licter-logo.png" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#eugenia" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>EugenIA</span>
+            <img class="img-project-nav" src="logo eugenia sans fond.png" alt="">
+          </div>
+        </a>
+      </li>
+
+      <li class="wrapper-nav-work">
+        <div class="nav-dot off"></div>
+        <a href="#htp" class="link-wrapper-project">
+          <div class="nav-dot"></div>
+          <div class="project-cont-nav">
+            <span>Her Third Place</span>
+            <img class="img-project-nav" src="images/projects/her-third-place-logo.png" alt="">
+          </div>
+        </a>
+      </li>
+
+    </ul>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ──────────────────────────────── -->
+  <div class="main-wrapper-work">
+
+    <!-- Header -->
+    <div class="header-work-copy">
+      <h1 class="text-headline-work">
+        <span class="text-span-6">T--.</span>Passionnée par les<br>systèmes et les détails
+      </h1>
+
+      <!-- Folder -->
+      <div class="folder-work-wrap">
+        <div class="folder-inner" id="folder-trigger">
+          <div class="folder-back"><img src="images/folder-back.png" alt=""></div>
+          <div class="folder-projects"><img src="images/folder-projects.png" alt=""></div>
+          <div class="folder-front">
+            <img src="images/folder-front.png" alt="">
+            <div style="position:absolute; inset:0; background:#3d4ef8; border-radius:14px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 1 : Carrefour ─────────────────────── -->
+    <div id="carrefour" class="main-project-wrapper">
+
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/carrefour-new.svg" alt="Carrefour" style="width:100px; display:block; margin-bottom:4px; margin-top:-1cm;">
+          <h3 class="headline-project">Carrefour<br>Data & Automatisation</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Automatiser l'analyse des produits à fort enjeu pour identifier les problèmes de comparabilité prix à grande échelle.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Make</div>
+            <div class="pill-service">Looker Studio</div>
+            <div class="pill-service">Data Viz</div>
+            <div class="pill-service">Automatisation</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Conception et déploiement de workflows automatisés connectant les sources de données internes à des dashboards Looker Studio temps réel.</p>
+        </div>
+
+      </div>
+      <div class="carousel-wrap" data-carousel>
+      <div class="carousel">
+        <div class="carousel-slide active"><img src="images/projects/screen1.png" alt="Carrefour 1"></div>
+        <div class="carousel-slide"><img src="images/projects/screen2.png" alt="Carrefour 2"></div>
+        <div class="carousel-slide"><img src="images/projects/screen3.png" alt="Carrefour 3"></div>
+        <div class="carousel-slide"><img src="images/projects/screen4.png" alt="Carrefour 4"></div>
+        <div class="carousel-slide"><img src="images/projects/screen5.png" alt="Carrefour 5"></div>
+        <div class="carousel-slide"><img src="images/projects/screen6.png" alt="Carrefour 6"></div>
+        <div class="carousel-slide"><img src="images/projects/screen7.png" alt="Carrefour 7"></div>
+        <div class="carousel-slide"><img src="images/projects/screen8.png" alt="Carrefour 8"></div>
+        </div>
+      <div class="carousel-controls">
+        <div class="carousel-counter"></div>
+        <button class="carousel-btn prev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="carousel-btn next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      </div>
+      <div style="width:100%; display:flex; justify-content:center;">
+        <a href="BDD_Carrefour+(2).pdf" download="Presentation_Carrefour_Jennie_Ansellem.pdf"
+           style="display:inline-flex; align-items:center; gap:12px; padding:18px 40px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:16px; color:var(--grey);
+                  text-decoration:none; transition:all .2s; background:transparent;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M7.5 10l-3-3M7.5 10l3-3M2 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Télécharger la présentation
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 2 : N8N ───────────────────────────── -->
+    <div id="n8n" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/n8n-logo.png" alt="N8N" style="width:80px; display:block; margin-bottom:4px; margin-top:-1cm;">
+          <h3 class="headline-project">N8N<br>RAG Automation</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Automatiser un RAG (Retrieval-Augmented Generation) sur la documentation Claude Code pour permettre des réponses contextuelles en temps réel.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">N8N</div>
+            <div class="pill-service">RAG</div>
+            <div class="pill-service">Claude API</div>
+            <div class="pill-service">Automatisation</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Conception et déploiement du workflow N8N — ingestion des docs Claude Code, vectorisation et pipeline de réponses IA automatisées.</p>
+        </div>
+
+      </div>
+
+      <img src="images/projects/n8n-workflow.png" alt="N8N workflow RAG" style="width:100%; height:auto; display:block; border-radius:16px;">
+
+    </div>
+    <!-- ── PROJECT 4 : WTTJ ──────────────────────────── -->
+    <div id="wttj" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/wttj-logo.webp" alt="Welcome to the Jungle" style="width:110px; display:block; margin-bottom:4px; margin-top:-1cm;">
+          <h3 class="headline-project">Welcome to<br>the Jungle</h3>
+          <div class="pill-year">2023</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Automatiser les flux de contenu éditorial et les rapports marketing pour réduire les tâches manuelles répétitives de l'équipe.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Make</div>
+            <div class="pill-service">Dust</div>
+            <div class="pill-service">Google Sheets</div>
+            <div class="pill-service">React + Tailwind</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Audit des processus, conception des scénarios Make et déploiement de dashboards Notion automatiques pour le suivi éditorial.</p>
+        </div>
+
+      </div>
+      <div class="carousel-wrap" data-carousel>
+      <div class="carousel">
+        <div class="carousel-slide active"><img src="images/projects/wttj1.png" alt="WTTJ 1"></div>
+        <div class="carousel-slide"><img src="images/projects/wttj2.png" alt="WTTJ 2"></div>
+        <div class="carousel-slide"><img src="images/projects/wttj3.png" alt="WTTJ 3"></div>
+        </div>
+      <div class="carousel-controls">
+        <div class="carousel-counter"></div>
+        <button class="carousel-btn prev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="carousel-btn next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      </div>
+
+      <!-- Liens Loom -->
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="https://www.loom.com/share/af3cecadb83c42cea7071b14682ee0ff" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px; border:1px solid var(--grey); border-radius:100px; font-family:'Goga',sans-serif; font-size:15px; color:var(--grey); text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir démo 1
+        </a>
+        <a href="https://www.loom.com/share/2a805f41db284a83b77d55caa49e66d7" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px; border:1px solid var(--grey); border-radius:100px; font-family:'Goga',sans-serif; font-size:15px; color:var(--grey); text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir démo 2
+        </a>
+        <a href="https://www.loom.com/share/291a59e83f2345deae56010dc509e7d7" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px; border:1px solid var(--grey); border-radius:100px; font-family:'Goga',sans-serif; font-size:15px; color:var(--grey); text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir démo 3
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 3 : Binko ─────────────────────────── -->
+    <div id="binko" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/binko-logo.jpeg" alt="Binko" style="width:80px; display:block; margin-bottom:4px; border-radius:8px;">
+          <h3 class="headline-project">Binko<br>Landing Page</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Lancer une landing page conversion-first pour une startup fintech en un temps record, sans développeur.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Webflow</div>
+            <div class="pill-service">No-Code</div>
+            <div class="pill-service">Landing Page</div>
+            <div class="pill-service">CRO</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Stratégie de conversion, design et développement Webflow. Mise en ligne en 3 semaines avec A/B testing intégré.</p>
+        </div>
+
+      </div>
+      <!-- Image pleine -->
+      <img src="images/projects/binko-landing.png" alt="Binko landing" style="width:100%; height:auto; display:block; border-radius:16px;">
+
+      <!-- Lien vers le site -->
+      <div style="display:flex; justify-content:center;">
+        <a href="https://binko-dbe082.webflow.io/" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 32px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:15px; color:var(--grey);
+                  text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir le site
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 5 : EugenIA ───────────────────────── -->
+    <div id="eugenia" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/licter-logo.png" alt="Licter" style="width:100px; display:block; margin-bottom:4px; cursor:pointer;" onclick="window.open('https://bdd-licter-jjp0rxm7m-jennieansellem-4501s-projects.vercel.app/','_blank')">
+          <h3 class="headline-project">Licter<br>No-Code App</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Créer une application no-code performante pour Licter, déployée rapidement sans équipe de développement dédiée.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Claude</div>
+            <div class="pill-service">N8N</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Conception et déploiement de l'application, intégration des automatisations et mise en ligne sur Vercel.</p>
+        </div>
+
+      </div>
+
+      <img src="images/projects/sitelicter.png" alt="Licter site" style="width:100%; height:auto; display:block; border-radius:16px;">
+
+      <!-- Lien vers le site -->
+      <div style="display:flex; justify-content:center;">
+        <a href="https://bdd-licter-jjp0rxm7m-jennieansellem-4501s-projects.vercel.app/" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 32px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:15px; color:var(--grey);
+                  text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir le site
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 6 : EugenIA ───────────────────────── -->
+    <div id="eugenia" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="logo eugenia sans fond.png" alt="Eugenia School" style="width:100px; display:block; margin-bottom:4px; margin-top:-1cm;">
+          <h3 class="headline-project">Eugenia School</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Concevoir des agents IA sur mesure pour automatiser les flux de travail internes d'une société de conseil en transformation digitale.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Agents IA</div>
+            <div class="pill-service">n8n</div>
+            <div class="pill-service">Dust</div>
+            <div class="pill-service">No-Code</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Architecture et déploiement d'agents IA connectés aux outils métiers — veille automatique, synthèse de documents et routing intelligent.</p>
+        </div>
+
+      </div>
+
+      <img src="images/projects/eugeniaschoolsite.png" alt="Eugenia School site" style="width:100%; height:auto; display:block; border-radius:16px;">
+
+      <!-- Lien vers le site -->
+      <div style="display:flex; justify-content:center;">
+        <a href="https://unisphere-steel.vercel.app/" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 32px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:15px; color:var(--grey);
+                  text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir le site
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 7 : Her Third Place ──────────────── -->
+    <div id="htp" class="main-project-wrapper">
+      <div class="cont-project-content">
+
+        <div class="content-project-info first">
+          <img src="images/projects/her-third-place-logo.png" alt="Her Third Place" style="width:100px; display:block; margin-bottom:4px; margin-top:-1cm;">
+          <h3 class="headline-project">Her Third Place<br>Site & Branding</h3>
+          <div class="pill-year">2024</div>
+          <div class="dot-project"></div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Challenge :</p>
+          <p class="body-copy black">Créer une présence digitale mémorable pour une communauté féminine, sans équipe technique en interne.</p>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Services :</p>
+          <div class="pill-services-cont">
+            <div class="pill-service">Make</div>
+            <div class="pill-service">Supabase</div>
+            <div class="pill-service">Tally</div>
+          </div>
+        </div>
+
+        <div class="content-project-info">
+          <p class="body-copy title">Rôle :</p>
+          <p class="body-copy black">Design et développement Webflow de A à Z — identité visuelle, pages, animations et CMS pour une gestion autonome du contenu.</p>
+        </div>
+
+      </div>
+      <div class="carousel-wrap" data-carousel>
+      <div class="carousel">
+        <div class="carousel-slide active"><img src="images/projects/htp1.png" alt="Her Third Place 1"></div>
+        <div class="carousel-slide"><img src="images/projects/htp2.png" alt="Her Third Place 2"></div>
+        <div class="carousel-slide"><img src="images/projects/htp3.png" alt="Her Third Place 3"></div>
+        <div class="carousel-slide"><img src="images/projects/htp4.png" alt="Her Third Place 4"></div>
+        <div class="carousel-slide"><img src="images/projects/htp5.png" alt="Her Third Place 5"></div>
+        <div class="carousel-slide"><img src="images/projects/htp6.png" alt="Her Third Place 6"></div>
+        </div>
+      <div class="carousel-controls">
+        <div class="carousel-counter"></div>
+        <button class="carousel-btn prev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="carousel-btn next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      </div>
+
+      <!-- Liens Loom -->
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="https://www.loom.com/share/125a7c6c3bfc4112b1bf7b179f38c33a" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:15px; color:var(--grey);
+                  text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir démo 1
+        </a>
+        <a href="https://www.loom.com/share/1f32ac1fefa84bd898571e76d4c8875e" target="_blank" rel="noopener"
+           style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px;
+                  border:1px solid var(--grey); border-radius:100px;
+                  font-family:'Goga',sans-serif; font-size:15px; color:var(--grey);
+                  text-decoration:none; transition:all .2s;"
+           onmouseover="this.style.background='var(--dark)';this.style.color='var(--bg-warm)';this.style.borderColor='var(--dark)'"
+           onmouseout="this.style.background='transparent';this.style.color='var(--grey)';this.style.borderColor='var(--grey)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voir démo 2
+        </a>
+      </div>
+    </div>
+
+
+  </div><!-- /main-wrapper-work -->
+</div><!-- /work-page -->
+
+<!-- Footer -->
+<footer class="work-footer">
+  <span class="work-footer-copy">© 2024 Jennie Ansellem</span>
+  <a class="back-home" href="index.html">
+    <div class="back-home-arrow">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 1L1 7M1 7L7 13M1 7H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    Retour à l'accueil
+  </a>
+</footer>
+
+<script>
+  // ─── Loader ──────────────────────────────────────────
+  gsap.to('#loader', { yPercent: -100, duration: 0.85, delay: 1.2, ease: 'power3.inOut',
+    onComplete: () => document.getElementById('loader').style.display = 'none'
+  });
+
+  // ─── Lenis ───────────────────────────────────────────
+  const lenis = new Lenis({ duration: 1.9, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+
+  // ─── Custom cursor ────────────────────────────────────
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // ─── Sidebar: smooth scroll to section ───────────────
+  document.querySelectorAll('.link-wrapper-project').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').replace('#', '');
+      const target = document.getElementById(id);
+      if (target) lenis.scrollTo(target, { offset: -60, duration: 1.6 });
+    });
+  });
+
+  // ─── Sidebar: active state via IntersectionObserver ──
+  const projects   = document.querySelectorAll('.main-project-wrapper');
+  const navLinks   = document.querySelectorAll('.link-wrapper-project');
+
+  function setActive(id) {
+    navLinks.forEach(l => {
+      const match = l.getAttribute('href') === '#' + id;
+      l.classList.toggle('w--current', match);
+    });
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { threshold: 0.35 });
+  projects.forEach(p => io.observe(p));
+
+  // ─── Image card reveal on scroll ─────────────────────
+  document.querySelectorAll('.img-project, .logo-badge').forEach(el => {
+    gsap.from(el, {
+      y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+  });
+
+  // ─── Info columns fade in ─────────────────────────────
+  document.querySelectorAll('.content-project-info').forEach((col, i) => {
+    gsap.from(col, {
+      y: 24, opacity: 0, duration: 0.7, delay: i % 4 * 0.08,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: col.closest('.cont-project-content'), start: 'top 85%', toggleActions: 'play none none none' }
+    });
+  });
+
+  // ─── Carousel ─────────────────────────────────────────
+  document.querySelectorAll('[data-carousel]').forEach(wrap => {
+    const slides  = Array.from(wrap.querySelectorAll('.carousel-slide'));
+    const counter = wrap.querySelector('.carousel-counter');
+    const n       = slides.length;
+    let cur       = 0;
+    const dotEls  = [];
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => go(i));
+      counter.appendChild(d);
+      dotEls.push(d);
+    });
+
+    function go(idx) {
+      slides[cur].classList.remove('active');
+      dotEls[cur].classList.remove('active');
+      cur = (idx + n) % n;
+      slides[cur].classList.add('active');
+      dotEls[cur].classList.add('active');
+    }
+
+    wrap.querySelector('.prev').addEventListener('click', () => go(cur - 1));
+    wrap.querySelector('.next').addEventListener('click', () => go(cur + 1));
+  });
+
+</script>
+</body>
+</html>

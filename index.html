@@ -897,6 +897,100 @@
       color: var(--orange1);
       opacity: .55;
     }
+
+    /* ─── RESPONSIVE MOBILE ──────────────────────────── */
+    @media (max-width: 768px) {
+
+      /* Navbar */
+      nav {
+        grid-template-columns: 1fr auto;
+        padding: 12px 18px;
+      }
+      .nav-links { display: none; }
+      .nav-pill { padding: 4px 4px 4px 12px; }
+      .nav-pill a { font-size: 11px; padding: 5px 8px; }
+
+      /* Hero */
+      .hero-body { padding: 70px 20px 28px; }
+      .hero-eyebrow { font-size: clamp(13px, 4vw, 20px); max-width: 160px; }
+      .hero-mid { flex: 0 0 18vw; }
+      .hero-role {
+        font-size: 9px;
+        bottom: -14px;
+        white-space: normal;
+        text-align: center;
+        width: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Stats */
+      .s-stats { padding: 80px 20px 60px; }
+      .stats-connector-line { display: none; }
+
+      /* Shapes */
+      .s-shapes { height: 50vh; min-height: 280px; }
+
+      /* Services */
+      .services-hd { padding: 60px 20px 36px; }
+      .srv { padding: 50px 20px; }
+      .srv-imgs { flex-wrap: wrap; }
+      .srv-img,
+      .srv-img-logo,
+      .srv-img-soon {
+        flex: 0 0 calc(50% - 6px) !important;
+        min-width: calc(50% - 6px) !important;
+        height: 130px !important;
+      }
+      .srv-logos { grid-template-columns: 1fr 1fr; }
+      .srv-logos .srv-img-logo,
+      .srv-logos .srv-img-soon { height: 120px !important; }
+
+      /* Confiance */
+      section[style*="padding: 80px 52px"] {
+        padding: 60px 20px !important;
+      }
+      section[style*="padding: 80px 52px"] div[style*="gap:52px 80px"] {
+        gap: 32px 40px !important;
+      }
+
+      /* Work CTA */
+      .work-hd { padding: 0 20px 16px; }
+      .work-big-text {
+        margin-top: 40px;
+        padding: 0 0 60px;
+      }
+      .work-word-part { font-size: clamp(64px, 16vw, 140px); }
+      .folder-wrap {
+        width: clamp(72px, 12vw, 120px) !important;
+        height: clamp(58px, 10vw, 100px) !important;
+        margin: 16px 1vw 0;
+      }
+
+      /* About */
+      .s-about { height: 300vh; }
+      .benefits { grid-template-columns: 1fr; gap: 16px 0; }
+      .about-headline { font-size: clamp(26px, 6.5vw, 48px); }
+      .about-kicker { font-size: 13px; }
+      .about-benefits-text { padding: 0 6vw; }
+
+      /* CTA */
+      .cta-heading { max-width: 100%; }
+      .cta-text-wrapper { padding: 8vw; }
+      .cta-btn-text { font-size: clamp(22px, 5.5vw, 48px); }
+      .cta-btn-email { font-size: clamp(14px, 3.5vw, 32px); }
+
+      /* Footer */
+      .ft-body { padding: 20px 20px; }
+      .ft-meta { flex-direction: column; align-items: flex-start; gap: 4px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-first, .hero-last { font-size: clamp(44px, 11vw, 80px); }
+      .stats-txt { font-size: clamp(28px, 8vw, 60px); }
+      .services-h2 { font-size: clamp(20px, 7vw, 40px); }
+      .ft-part { font-size: clamp(52px, 13vw, 100px); }
+    }
   </style>
 </head>
 <body>

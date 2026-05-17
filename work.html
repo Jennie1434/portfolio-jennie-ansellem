@@ -499,6 +499,98 @@
     .back-home:hover .back-home-arrow {
       border-color: var(--dark); background: var(--dark); color: var(--bg-warm);
     }
+
+    /* ─── RESPONSIVE MOBILE ──────────────────────────── */
+    @media (max-width: 768px) {
+
+      /* Navbar */
+      nav {
+        grid-template-columns: 1fr auto;
+        padding: 12px 18px;
+      }
+      .nav-links { display: none; }
+      .nav-pill { padding: 4px 4px 4px 12px; }
+      .nav-pill a { font-size: 11px; padding: 5px 8px; }
+
+      /* Layout: empile sidebar + contenu */
+      .work-page { flex-direction: column; }
+
+      /* Sidebar → bande horizontale en haut */
+      .main-cont-nav-work {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 100px 20px 16px;
+        gap: 8px;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .wrapper-work-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .wrapper-nav-work { height: auto; }
+      .link-wrapper-project {
+        opacity: 1;
+        font-size: 0.72rem;
+        background: rgba(196,181,253,.12);
+        border: 1px solid rgba(196,181,253,.3);
+        border-radius: 100px;
+        padding: 4px 12px 4px 8px;
+      }
+      .link-wrapper-project.w--current {
+        margin-left: 0;
+        padding-left: 8px;
+      }
+      .img-project-nav { display: none !important; }
+      .nav-dot.off { display: none; }
+
+      /* Main content: pleine largeur */
+      .main-wrapper-work { width: 100%; }
+
+      /* Header */
+      .header-work-copy {
+        width: 90%;
+        height: auto;
+        margin-top: 24px;
+        margin-bottom: 40px;
+        padding: 0 20px;
+      }
+      .text-headline-work { font-size: clamp(28px, 8vw, 52px); letter-spacing: -0.02em; }
+
+      /* Project wrapper */
+      .main-project-wrapper {
+        padding: 24px 20px;
+        margin-bottom: 24px;
+        gap: 20px;
+      }
+
+      /* Project grid: 4 col → 1 col */
+      .cont-project-content {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .content-project-info.first { padding-left: 0; }
+
+      /* Carousel */
+      .carousel-wrap { gap: 12px; }
+
+      /* Footer */
+      .work-footer {
+        padding: 32px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .text-headline-work { font-size: clamp(24px, 7vw, 40px); }
+    }
   </style>
 </head>
 <body>

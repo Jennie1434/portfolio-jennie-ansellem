@@ -1,0 +1,78 @@
+EXPÉRIENCES STAR — Jennie Ansellem
+====================================
+
+1. BUBBLE TEA — Champs-Élysées
+--------------------------------
+S : L'entreprise n'avait pas de manager en place. Mes parents et moi avons pris en charge la gestion du point de vente en plus de mon rôle de salariée.
+
+T : Assurer la gestion opérationnelle quotidienne — plannings, organisation de l'équipe et gestion des stocks.
+
+A : J'ai structuré les plannings, mis en place une organisation claire et géré les approvisionnements pour maintenir le bon fonctionnement du point de vente.
+
+R : Le magasin a fonctionné sans interruption pendant 1 mois malgré l'absence de manager officiel.
+
+
+2. CARREFOUR — Projet école
+-----------------------------
+S : Projet en équipe dans le cadre de ma formation, sur un cas client Carrefour avec des enjeux complexes à comprendre.
+
+T : Analyser les problématiques de Carrefour et proposer des solutions concrètes en équipe.
+
+A : Malgré une prise en main difficile au départ, j'ai contribué activement à structurer la réflexion et à maintenir la dynamique d'équipe jusqu'à la livraison finale.
+
+R : Projet rendu avec succès, objectifs atteints malgré la complexité des enjeux.
+
+
+3. WTTJ — Hackathon
+---------------------
+S : Hackathon intensif de 3-4 jours, notre équipe de Bachelors face à des équipes de Masters.
+
+T : Concevoir et livrer un projet complet en un temps très court, avec une nuit blanche et une forte pression.
+
+A : Je me suis investie à 100%, j'ai contribué à maintenir la cohésion et l'énergie de l'équipe malgré la fatigue et l'intensité.
+
+R : Victoire du hackathon face à des équipes de niveau supérieur.
+
+
+4. HER THIRD PLACE — Chef de projet
+--------------------------------------
+S : Projet de 4 semaines en équipe, j'étais chef de projet et persuadée de gagner tant je m'étais investie.
+
+T : Mener l'équipe sur deux domaines — technique et business — pour remporter le projet.
+
+A : Je me suis concentrée à fond sur la partie technique mais n'ai pas donné de directives claires aux membres responsables de la partie business.
+
+R : Excellent résultat sur la partie technique, mais la partie business insuffisante a coûté la victoire. Leçon clé : être chef de projet c'est déléguer et coordonner, pas juste performer individuellement.
+
+
+5. BINKO — Freelance
+----------------------
+S : Startup fintech ayant besoin d'une landing page conversion-first, sans équipe technique.
+
+T : Concevoir et déployer une landing page performante en un temps record.
+
+A : J'ai pris en charge la stratégie de conversion, le design et le développement Webflow de A à Z.
+
+R : Site mis en ligne en 3 semaines, opérationnel et prêt à convertir.
+
+
+6. LICTER — Freelance
+-----------------------
+S : Projet nécessitant une application no-code déployée rapidement sans équipe de développement.
+
+T : Concevoir et déployer une application fonctionnelle en utilisant Claude et N8N.
+
+A : J'ai architecturé la solution, intégré les automatisations et mis en ligne sur Vercel de façon autonome.
+
+R : Application livrée et déployée, accessible en ligne.
+
+
+7. EUGENIA SCHOOL — Freelance
+--------------------------------
+S : Société de conseil en transformation digitale souhaitant automatiser ses flux de travail internes.
+
+T : Concevoir des agents IA connectés aux outils métiers pour gagner en efficacité.
+
+A : J'ai conçu et déployé des agents IA avec N8N et Dust — veille automatique, synthèse de documents, routing des demandes.
+
+R : Workflows automatisés opérationnels, réduction des tâches manuelles pour l'équipe.
